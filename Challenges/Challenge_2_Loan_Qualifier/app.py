@@ -9,10 +9,12 @@ Example:
 import sys
 import fire
 import questionary
-import csv
 from pathlib import Path
 
-from qualifier.utils.fileio import load_csv
+from qualifier.utils.fileio import (
+    load_csv, 
+    save_qualifying_loans
+)
 
 from qualifier.utils.calculators import (
     calculate_monthly_debt_ratio,
@@ -103,36 +105,6 @@ def find_qualifying_loans(bank_data, credit_score, debt, income, loan, home_valu
     return bank_data_filtered
 
 
-def save_qualifying_loans(qualifying_loans):
-    """Saves the qualifying loans to a CSV file.
-
-    Args:
-        qualifying_loans (list of lists): The qualifying bank loans.
-    """
-    header = ["Lender", "Max Loan Amount", "Max LTV", "Max DTI", "Min Credit Score", "Interest Rate"]
-    
-    # If user does not qualify for any loans, quits the application.
-    if len(qualifying_loans) == 0:
-        sys.exit("Sorry, you do not qualify for any loans. Goodbye.")
-
-    # Asks user if they would like to save their list of qualfied loans.    
-    proceed = questionary.confirm("Would you like to save your list of qualified loans? Please enter yes or no.").ask()
-    
-    # Gets the output file path from the user.
-    if proceed: 
-        output_file_path = questionary.text("Please enter an output file path (.csv) to save your list of qualifying loans.").ask()
-        csvpath = Path(output_file_path)  #Creates a Path to a new CSV file
-    else: 
-        sys.exit("Thank you for using the Loan Qualifier Application. Goodbye.")
-
-    # Opens the output CSV file path using `with open` and writes the 'qualifying_loans' list to a .csv file
-    with open(csvpath, 'w', newline='') as csvfile:  
-        csvwriter = csv.writer(csvfile)
-        csvwriter.writerow(header)
-        for row in qualifying_loans:
-            csvwriter.writerow(row)
-    print("Thank you for using the Loan Qualifier Application. Goodbye.")
-
 def run():
     """The main function for running the script."""
 
@@ -149,6 +121,8 @@ def run():
 
     # Saves qualifying loans
     save_qualifying_loans(qualifying_loans)
+
+    print("Thank you for using the Loan Qualifier Application. Goodbye.")
 
 
 if __name__ == "__main__":
