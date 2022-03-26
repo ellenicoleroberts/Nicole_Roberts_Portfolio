@@ -9,6 +9,7 @@ Example:
 import sys
 import fire
 import questionary
+import csv
 from pathlib import Path
 
 from qualifier.utils.fileio import load_csv
@@ -102,14 +103,31 @@ def find_qualifying_loans(bank_data, credit_score, debt, income, loan, home_valu
     return bank_data_filtered
 
 
-def save_qualifying_loans(qualifying_loans):
+def save_qualifying_loans(qualifying_loans): #we have a list of qualifying loans, now need to save to .csv file
     """Saves the qualifying loans to a CSV file.
 
     Args:
         qualifying_loans (list of lists): The qualifying bank loans.
     """
-    # @TODO: Complete the usability dialog for savings the CSV Files.
-    # YOUR CODE HERE!
+    #Complete the usability dialog for savings the CSV Files.
+    header = ["Lender", "Max Loan Amount", "Max LTV", "Max DTI", "Min Credit Score", "Interest Rate"]
+    
+    if len(qualifying_loans) == 0:
+        sys.exit("Sorry, you do not qualify for any loans. Goodbye.")
+        
+    #answer = questionary.confirm("Would you like to save your list of qualifying loans? Please enter yes or no.").ask()
+    
+    #if answer == "y": 
+    output_file_path = questionary.text("Please enter an output file path (.csv) to save your list of qualifying loans.").ask()
+    csvpath = Path(output_file_path)  #Creates a Path to a new CSV file
+    #else: 
+     #   sys.exit("Thank you for using the Loan Qualifier Application. Goodbye.")
+
+    with open(csvpath, 'w', newline='') as csvfile: #    #Opens the output CSV file path using `with open`
+        csvwriter = csv.writer(csvfile)
+        csvwriter.writerow(header)
+        for row in qualifying_loans:
+            csvwriter.writerow(row)
 
 
 def run():
