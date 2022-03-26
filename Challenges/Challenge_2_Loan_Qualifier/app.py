@@ -26,7 +26,7 @@ from qualifier.filters.loan_to_value import filter_loan_to_value
 
 
 def load_bank_data():
-    """Ask for the file path to the latest banking data and load the CSV file.
+    """Asks for the file path to the latest banking data and load the CSV file.
 
     Returns:
         The bank data from the data rate sheet CSV file.
@@ -63,7 +63,7 @@ def get_applicant_info():
 
 
 def find_qualifying_loans(bank_data, credit_score, debt, income, loan, home_value):
-    """Determine which loans the user qualifies for.
+    """Determines which loans the user qualifies for.
 
     Loan qualification criteria is based on:
         - Credit Score
@@ -84,11 +84,11 @@ def find_qualifying_loans(bank_data, credit_score, debt, income, loan, home_valu
 
     """
 
-    # Calculate the monthly debt ratio
+    # Calculates the monthly debt ratio
     monthly_debt_ratio = calculate_monthly_debt_ratio(debt, income)
     print(f"The monthly debt to income ratio is {monthly_debt_ratio:.02f}")
 
-    # Calculate loan to value ratio
+    # Calculates loan to value ratio
     loan_to_value_ratio = calculate_loan_to_value_ratio(loan, home_value)
     print(f"The loan to value ratio is {loan_to_value_ratio:.02f}.")
 
@@ -103,48 +103,51 @@ def find_qualifying_loans(bank_data, credit_score, debt, income, loan, home_valu
     return bank_data_filtered
 
 
-def save_qualifying_loans(qualifying_loans): #we have a list of qualifying loans, now need to save to .csv file
+def save_qualifying_loans(qualifying_loans):
     """Saves the qualifying loans to a CSV file.
 
     Args:
         qualifying_loans (list of lists): The qualifying bank loans.
     """
-    #Complete the usability dialog for savings the CSV Files.
     header = ["Lender", "Max Loan Amount", "Max LTV", "Max DTI", "Min Credit Score", "Interest Rate"]
     
+    # If user does not qualify for any loans, quits the application.
     if len(qualifying_loans) == 0:
         sys.exit("Sorry, you do not qualify for any loans. Goodbye.")
-        
-    #answer = questionary.confirm("Would you like to save your list of qualifying loans? Please enter yes or no.").ask()
-    
-    #if answer == "y": 
-    output_file_path = questionary.text("Please enter an output file path (.csv) to save your list of qualifying loans.").ask()
-    csvpath = Path(output_file_path)  #Creates a Path to a new CSV file
-    #else: 
-     #   sys.exit("Thank you for using the Loan Qualifier Application. Goodbye.")
 
-    with open(csvpath, 'w', newline='') as csvfile: #    #Opens the output CSV file path using `with open`
+    # Asks user if they would like to save their list of qualfied loans.    
+    proceed = questionary.confirm("Would you like to save your list of qualified loans? Please enter yes or no.").ask()
+    
+    # Gets the output file path from the user.
+    if proceed: 
+        output_file_path = questionary.text("Please enter an output file path (.csv) to save your list of qualifying loans.").ask()
+        csvpath = Path(output_file_path)  #Creates a Path to a new CSV file
+    else: 
+        sys.exit("Thank you for using the Loan Qualifier Application. Goodbye.")
+
+    # Opens the output CSV file path using `with open` and writes the 'qualifying_loans' list to a .csv file
+    with open(csvpath, 'w', newline='') as csvfile:  
         csvwriter = csv.writer(csvfile)
         csvwriter.writerow(header)
         for row in qualifying_loans:
             csvwriter.writerow(row)
-
+    print("Thank you for using the Loan Qualifier Application. Goodbye.")
 
 def run():
     """The main function for running the script."""
 
-    # Load the latest Bank data
+    # Loads the latest Bank data
     bank_data = load_bank_data()
 
-    # Get the applicant's information
+    # Gets the applicant's information
     credit_score, debt, income, loan_amount, home_value = get_applicant_info()
 
-    # Find qualifying loans
+    # Finds qualifying loans
     qualifying_loans = find_qualifying_loans(
         bank_data, credit_score, debt, income, loan_amount, home_value
     )
 
-    # Save qualifying loans
+    # Saves qualifying loans
     save_qualifying_loans(qualifying_loans)
 
 

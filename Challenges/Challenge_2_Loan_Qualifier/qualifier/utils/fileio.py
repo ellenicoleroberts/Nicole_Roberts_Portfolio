@@ -21,10 +21,10 @@ def load_csv(csvpath):
         data = []
         csvreader = csv.reader(csvfile, delimiter=",")
 
-        # Skip the CSV Header
+        # Skips the CSV Header
         next(csvreader)
 
-        # Read the CSV data
+        # Reads the CSV data
         for row in csvreader:
             data.append(row)
     return data
