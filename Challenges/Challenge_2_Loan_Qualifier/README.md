@@ -1,4 +1,4 @@
-![A stylistic banner](images/banner.png =950x)
+![A stylistic banner](images/banner.png =650x)
 # Loan Qualifier App
 
 This application connects a customer in search of a loan with a number of suitable banks. Using command-line-interface (CLI), the customer informs the app of their credit score, monthly debt-to-income ratio, loan-to-value ratio, and the size of their requested loan. The app then uses these metrics to filter through a list of banks, selecting only those which the customer qualifies for. The customer is able to save their list of applicable banks to a spreadsheet.
