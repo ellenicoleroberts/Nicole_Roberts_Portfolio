@@ -1,10 +1,21 @@
-# Project Title
+![A stylistic banner.](images/banner.jpg)
+# Loan Qualifier App
 
-Just after the title, introduce your project by describing attractively what the project is about and what is the main problem that inspires you to create this project or what is the main contribution for the potential user of your project.
+This application connects a customer in search of a loan with a number of suitable banks. Using command-line-interface (CLI), the customer informs the app of their credit score, monthly debt-to-income ratio, loan-to-value ratio, and the size of their requested loan. The app then uses these metrics to filter through a list of banks, selecting only those which the customer qualifies for. The customer is able to save their list of applicable banks to a spreadsheet.
+
+This application is an efficient and easy solution for the customer to quickly find a custom-tailored list of banks who can offer them a loan.
 
 ---
 
 ## Technologies
+
+This application leverages python 3.7 with the following packages:
+
+* fire: for the entry point and CLI.
+* questionary: for user prompts and dialogues permitting an interactive experience.
+* pathlib: for creation of file paths allowing the application to interact with a computer's filesystem.
+* csv: for reading and writing .csv files
+
 
 Describe the technologies required to use your project such as programming languages, libraries, frameworks, and operating systems. Be sure to include the specific versions of any critical dependencies that you have used in the stable version of your project.
 
@@ -24,10 +35,11 @@ This section should include screenshots, code blocks, or animations explaining h
 
 ## Contributors
 
-In this section, list all the people who contribute to this project. You might want recruiters or potential collaborators to reach you, so include your contact email and, optionally, your LinkedIn or Twitter profile.
+Nicole Roberts,
+elle.nicole.roberts@gmail.com
 
 ---
 
 ## License
 
-When you share a project on a repository, especially a public one, it's important to choose the right license to specify what others can and can't with your source code and files. Use this section to include the license you want to use.
+BSD 3: BSD 3-clause is a permissive licence, allowing nearly unlimited freedom with the software as long as BSD copyright and license notice is included.
