@@ -1,4 +1,8 @@
 # coding: utf-8
+
+"""Part 1: Automates a number of calculations for the loan portfolio summaries.
+"""
+
 import csv
 from pathlib import Path
 
@@ -16,6 +20,10 @@ print(f"The total value of all of the loans is ${sum_of_all_loans}.")
 
 average_loan_amount = sum_of_all_loans / total_number_of_loans #the average value of the loans in the list
 print(f"The average loan price is ${average_loan_amount}.")
+
+
+"""Part 2: Analyzes loan data to determine the investment evaluation.
+"""
 
 print("\nPart 2: Analyze Loan Data.\n")
 
@@ -39,9 +47,25 @@ if present_value_of_loan1 >= loan["loan_price"]: #conditional statement that det
 else:
     print(f"The present value of this loan is ${round(present_value_of_loan1), 2}. It is too expensive and not worth the price.")
 
+
+"""Part 3: Performs financial calculations using functions.
+"""
+
 print("\nPart 3: Perform Financial Calculations.\n")
 
-def present_value(future_value, remaining_months, annual_discount_rate): #a function that calculates a loan's present value
+def present_value(future_value, remaining_months, annual_discount_rate): 
+    """Calculates the present value of a loan.
+    
+    Args:
+        future_value (int): A loan's future value.
+        remaining_months (int): How many months are remaining for the loan until full payment is due.
+        annual_discount_rate (float): The annual discount rate for the loan.
+
+    Returns:
+        A loan's present value
+
+    """
+
     present_value = future_value / (1 + (annual_discount_rate/12))**remaining_months
     return present_value
 
@@ -57,7 +81,11 @@ present_value_of_loan2 = present_value(new_loan["future_value"], new_loan["remai
 
 print(f"The present value of the loan is ${round(present_value_of_loan2, 2)}.")
 
-print("\nPart 4: Conditionally filter lists of loans.\n")
+
+"""Part 4: Conditionally filters a list of loans to select only the inexpensive ones.
+"""
+
+print("\nPart 4: Conditionally filters a list of loans.\n")
 
 loans = [  #a list containing information for a number of loans
     {
@@ -95,6 +123,10 @@ for loan in loans: #a for loop that filters the "loans" list according to price;
 print("Here is the list of inexpensive loans:\n")
 print(inexpensive_loans)
 
+
+"""Part 5: Outputs this list of inexpensive loans to a csv file.
+"""
+
 print("\nPart 5: Save the results.\n")
 
 header = ["loan_price", "remaining_months", "repayment_interval", "future_value"] #a header that will be printed to a CSV file created below
@@ -103,8 +135,8 @@ output_path = Path("inexpensive_loans.csv") #creates a Path object, "inexpensive
 
 with open(output_path, 'w', newline='') as csvfile: #using the assigned Path object, opens the new "inexpensive_loans.csv" file in write mode
     csvwriter = csv.writer(csvfile) #creates a `csvwriter` using the `CSV` library to write data to the "inexpensive_loans.csv" file
-    csvwriter.writerow(header) #writes the header to the "inexpensive_loans.csv" file; will be the first row in the CSV file
-    for loan in inexpensive_loans: #a for loop that iterates through every loan in the inexpensive_loans list
+    csvwriter.writerow(header) #writes the header to the "inexpensive_loans.csv" file
+    for loan in inexpensive_loans: #iterates through every loan in the inexpensive_loans list
         csvwriter.writerow(loan.values()) #writes each loan's information to its own row in the "inexpensive_loans.csv" file
 
 print("The list of inexpensive loans has been written to inexpensive_loans.csv.")
